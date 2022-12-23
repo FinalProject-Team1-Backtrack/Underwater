@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Backtrack.Core;
 
 public class FinishZone : MonoBehaviour
 {
-	// Use this for initialization
-	void Start()
-	{
+    const string playerTag = "Player";
 
-	}
-
-	// Update is called once per frame
-	void Update()
-	{
-			
-	}
+    void OnTriggerExit(Collider col)
+    {
+        if (col.CompareTag(playerTag))
+        {
+            Debug.Log("Detect collision");
+            GameManager.Instance.Win();
+        }
+    }
 }
 

@@ -25,17 +25,16 @@ public class PlayerController : MonoBehaviour
 
     float[] m_PlayerSpeed = new float[]
     {
-        5.0f, // slow
-        9.0f, // mid
-        15.0f, // fast
+        15.0f, // slow
+        20.0f, // mid
+        27.0f, // fast
     };
 
+    float m_Speed;
     Transform m_Transform;
-    Transform m_TrackTransform;
     private Rigidbody m_Rigid;
     Vector3 m_StartPosition;
     Quaternion m_StartRotation;
-    float m_Speed;
 
     void Awake()
     {
@@ -70,22 +69,9 @@ public class PlayerController : MonoBehaviour
 
     public void Move(Vector2 playerInput)
     {
-        m_Rigid.velocity = new Vector3(playerInput.x, playerInput.y, m_Speed);
-        if(m_TrackTransform != null)
-        {
-            m_Rigid.velocity = m_TrackTransform.rotation * m_Rigid.velocity;
-        }
+        m_Rigid.velocity = new Vector3(2 * playerInput.x, 2 * playerInput.y, m_Speed);
+        m_Rigid.velocity = m_Transform.rotation * m_Rigid.velocity;
     }
-
-    // Returns player to their starting position
-    //public void ResetPlayer()
-    //{
-    //    m_Transform.position = m_StartPosition;
-    //    //m_Transform.rotation = m_StartRotation * m_Transform.rotation;
-    //    m_PlayerSpeedMode = PlayerSpeedMode.Slow;
-    //    SetSpeed();
-    //    m_Reset = true;
-    //}
 
     public void Accelerate()
     {
@@ -114,13 +100,13 @@ public class PlayerController : MonoBehaviour
         SetSpeed();
     }
 
-    void OnTriggerEnter(Collider col)
-    {
-        const int tunnel = 6;
-        if (col.gameObject.layer == tunnel)
-        {
-            m_TrackTransform = col.gameObject.transform;
-            m_Transform.rotation = m_TrackTransform.rotation * m_Transform.rotation; // 非正交时会有诸多问题
-        }
-    }
+    // Returns player to their starting position
+    //public void ResetPlayer()
+    //{
+    //    m_Transform.position = m_StartPosition;
+    //    //m_Transform.rotation = m_StartRotation * m_Transform.rotation;
+    //    m_PlayerSpeedMode = PlayerSpeedMode.Slow;
+    //    SetSpeed();
+    //    m_Reset = true;
+    //}
 }
