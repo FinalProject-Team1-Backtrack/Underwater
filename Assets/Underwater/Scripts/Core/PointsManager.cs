@@ -9,7 +9,7 @@ public class PointsManager : MonoBehaviour
     public static PointsManager Instance => s_Instance;
     static PointsManager s_Instance;
 
-    public int m_Points = 0;
+    [SerializeField] int m_Points = 0;
 
     // Use this for initialization
     void Awake()
@@ -32,6 +32,11 @@ public class PointsManager : MonoBehaviour
     public void DecreasePoints(int score)
     {
         m_Points = Math.Max(m_Points - score, 0);
+    }
+
+    public void ResetPoints()
+    {
+        m_Points = 0;
     }
 
     private void OnGUI()

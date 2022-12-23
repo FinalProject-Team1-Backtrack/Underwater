@@ -33,10 +33,4 @@ public class InputManager : MonoBehaviour
             PlayerController.Instance.Move(playerInput);
         }
     }
-
-    //public void ResetInput()
-    //{
-    //    Vector2 playerInput = new Vector2(0, 0);
-    //    PlayerController.Instance.Move(playerInput);
-    //}
 }

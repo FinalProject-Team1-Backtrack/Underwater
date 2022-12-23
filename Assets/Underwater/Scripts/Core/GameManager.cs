@@ -49,8 +49,6 @@ namespace Backtrack.Core
         public void ResetLevel()
         {
             //PlayerController.Instance.ResetPlayer();
-            //CameraManager.Instance.ResetCamera();
-            //InputManager.Instance.ResetInput();
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
             //if (LevelManager.Instance != null)
@@ -82,11 +80,12 @@ namespace Backtrack.Core
         {
             m_WinEvent.Raise();
             ResetLevel();
+            PointsManager.Instance.ResetPoints();
         }
 
         public void Lose()
         {
-            const int score = 50;
+            const int score = 200;
             m_LoseEvent.Raise();
             PointsManager.Instance.DecreasePoints(score);
             ResetLevel();

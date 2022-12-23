@@ -36,6 +36,11 @@ public class PlayerController : MonoBehaviour
     Vector3 m_StartPosition;
     Quaternion m_StartRotation;
 
+    public bool isRotating = false;
+    public Transform rotateFrom;
+    public Transform rotateTo;
+    float _timeCount = 0.0f;
+
     void Awake()
     {
         if (s_Instance != null && s_Instance != this)
@@ -58,6 +63,20 @@ public class PlayerController : MonoBehaviour
         m_Rigid = gameObject.GetComponent<Rigidbody>();
 
         SetSpeed();
+    }
+
+    private void Update()
+    {
+        if (isRotating && _timeCount < 1.0f)
+        {
+            SmoothRotation(rotateFrom, rotateTo, _timeCount);
+            _timeCount += Time.deltaTime;
+        }
+        else if (isRotating)
+        {
+            _timeCount = 0.0f;
+            isRotating = false;
+        }
     }
 
     // Set the player's speed based on speed mode
@@ -100,13 +119,8 @@ public class PlayerController : MonoBehaviour
         SetSpeed();
     }
 
-    // Returns player to their starting position
-    //public void ResetPlayer()
-    //{
-    //    m_Transform.position = m_StartPosition;
-    //    //m_Transform.rotation = m_StartRotation * m_Transform.rotation;
-    //    m_PlayerSpeedMode = PlayerSpeedMode.Slow;
-    //    SetSpeed();
-    //    m_Reset = true;
-    //}
+    public void SmoothRotation(Transform from, Transform to, float time)
+    {
+        m_Transform.rotation = Quaternion.Slerp(from.rotation, to.rotation, time);
+    }
 }

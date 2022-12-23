@@ -5,11 +5,11 @@ using Backtrack.Core;
 
 public class ChoiceZone : MonoBehaviour
 {
-	Collider m_Collider;
-	Vector3 m_Center;
-    const string playerTag = "Player";
 	[SerializeField] GameObject leftBranch;
     [SerializeField] GameObject rightBranch;
+    Collider m_Collider;
+    Vector3 m_Center;
+    const string playerTag = "Player";
 
     // Use this for initialization
     void Start()
@@ -26,13 +26,16 @@ public class ChoiceZone : MonoBehaviour
 			Vector3 position = this.transform.position;
 			Vector3 closestPoint = col.ClosestPoint(position);
 
-			if(closestPoint.x < m_Center.x)
+            PlayerController.Instance.isRotating = true;
+            PlayerController.Instance.rotateFrom = col.gameObject.transform;
+
+            if (closestPoint.x < m_Center.x)
 			{
-				col.gameObject.transform.rotation = leftBranch.transform.rotation;
+                PlayerController.Instance.rotateTo = leftBranch.transform;
 			}
 			else
 			{
-				col.gameObject.transform.rotation = rightBranch.transform.rotation;
+                PlayerController.Instance.rotateTo = rightBranch.transform;
             }
         }
     }
